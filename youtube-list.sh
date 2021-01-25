@@ -6,14 +6,6 @@ output_file_name=""
 declare -a links_playlist
 #=============================================
 
-output_name=$2
-
-#echo -e "Downloading list..."
-
-#youtube-dl -j --flat-playlist $link_playlist | jq -r '.id' | sed 's_^_https://youtu.be/_' > $output_name
-
-#echo -e "List saved in $output_name"
-
 __ScriptVersion="0.1"
 
 #===  FUNCTION  ===============================
@@ -29,9 +21,9 @@ usage ()
     -v|version    Display script version
     -i|input      Input file name
     -o|output     Output file name
+    -f|file       Save in file
     "
-
-}    # ----------  end of function usage  ----------
+}
 
 save_input()
 {
@@ -42,11 +34,21 @@ save_input()
   done < $input_file_name
 }
 
+save_in_file()
+{
+  echo -e "Downloading playlist(s)"
+  echo "" > $output_file_name
+  for i in "${links_playlist[@]}" ; do
+    youtube-dl -j --flat-playlist $i | jq -r '.id' | sed 's_^_https://youtu.be/_' >> $output_file_name
+  done
+  echo -e "Playlist(s) saved in $output_file_name"
+}
+
 #-----------------------------------------------------------------------
 #  Handle command line arguments
 #-----------------------------------------------------------------------
 
-while getopts ":hvi:o:p" opt
+while getopts ":hvi:o:pf" opt
 do
   case $opt in
 
@@ -67,10 +69,15 @@ do
     output_file_name=$OPTARG
   ;;
   
-p)
-for i in "${links_playlist[*]}"; do
- echo "$i" 
-done
+  p)
+    for i in "${links_playlist[@]}"; do
+      echo "$i"
+    done
+  ;;
+
+  f)
+    save_input
+    save_in_file
   ;;
 
   *)
