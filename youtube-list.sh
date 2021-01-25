@@ -9,6 +9,10 @@ declare -a links_playlist
 __ScriptVersion="0.1"
 #==============================================
 
+#=== COLORS ===================================
+NOCOLOR="\033[0m"
+#==============================================
+
 #===  FUNCTION  ===============================
 #         NAME:  usage
 #  DESCRIPTION:  Display usage information.
@@ -28,7 +32,7 @@ usage ()
 
 #===  FUNCTION  ===============================
 #         NAME:  save_input
-#  DESCRIPTION:  Save the links in the file
+#  DESCRIPTION:  Save the links in the array
 #==============================================
 save_input()
 {
@@ -52,34 +56,28 @@ save_in_file()
 while getopts ":hvi:o:f" opt
 do
   case $opt in
-
-  h|help)
-    usage; exit 0
-  ;;
-
-  v|version)
-    echo "$0 -- Version $__ScriptVersion"; exit 0
-  ;;
-
-  i|input)
-    input_file_name=$OPTARG 
-    save_input
-  ;;
-
-  o|output)
-    output_file_name=$OPTARG
-  ;;
-
-  f)
-    save_input
-    save_in_file
-  ;;
-
-  *)
-    echo -e "\n  Option does not exist : $OPTARG\n"
-    usage; exit 1
-  ;;
-
+    h|help)
+      usage; exit 0
+      ;;
+    v|version)
+      echo "$0 -- Version $__ScriptVersion"; exit 0
+      ;;
+    i|input)
+      input_file_name=$OPTARG 
+      save_input
+      ;;
+    o|output)
+      output_file_name=$OPTARG
+      ;;
+    f)
+      save_input
+      save_in_file
+      exit 0
+      ;;
+    *)
+      echo -e "\n  Option does not exist : $OPTARG\n"
+      usage; exit 1
+      ;;
   esac    # --- end of case ---
 done
 shift $(($OPTIND-1))
