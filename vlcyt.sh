@@ -9,17 +9,27 @@ echo "              By: @spawnmc";
 
 #=== Variables =============================
 ward=true
+answer=0
 
 interactive_mode(){
   while $ward ; do
-    echo "Welcome to Vlcyt :)"
     echo -e "1 -> Play (no video)"
     echo -e "2 -> Play"
     echo -e "3 -> Update playlist"
     echo -e "4 -> Exit"
     echo -e "Enter an option> "
-    read 
-    ward=false
+    read -r answer
+
+    case "$answer" in
+      1)
+        ;;
+
+      4)
+        ward=false
+        ;;
+      *)
+        echo "$answer Didn't match anything"
+    esac
   done
 }
 
@@ -27,10 +37,10 @@ interactive_mode(){
 
 __ScriptVersion="0.1"
 
-#===  FUNCTION  ================================================================
+#===  FUNCTION  ================================
 #         NAME:  usage
 #  DESCRIPTION:  Display usage information.
-#===============================================================================
+#==============================================
 usage ()
 {
   echo "Usage :  $0 [options] [--]
