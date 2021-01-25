@@ -1,12 +1,13 @@
 #!/bin/bash
 
-#=== Variables ===============================
+# @Autor: spawnmc (spawmc in GitHub)
+
+#=== Variables ================================
 input_file_name=""
 output_file_name=""
 declare -a links_playlist
-#=============================================
-
 __ScriptVersion="0.1"
+#==============================================
 
 #===  FUNCTION  ===============================
 #         NAME:  usage
@@ -14,17 +15,21 @@ __ScriptVersion="0.1"
 #==============================================
 usage ()
 {
-  echo "Usage: $0 [options] [--]
+  echo -e "\e[1;36mUsage:\e[21;39m $0 [options] [--]
 
-    Options:
+    \e[33mOptions:\e[39m
     -h|help       Display this message
     -v|version    Display script version
     -i|input      Input file name
     -o|output     Output file name
-    -f|file       Save in file
+    -f|file       Save in file            \e[35m| Syntax: -i -o -f\e[39m
     "
 }
 
+#===  FUNCTION  ===============================
+#         NAME:  save_input
+#  DESCRIPTION:  Save the links in the file
+#==============================================
 save_input()
 {
   count=0
@@ -36,19 +41,15 @@ save_input()
 
 save_in_file()
 {
-  echo -e "Downloading playlist(s)"
+  echo -e "\e[5mDownloading playlist(s)...\e[25m"
   echo "" > $output_file_name
   for i in "${links_playlist[@]}" ; do
     youtube-dl -j --flat-playlist $i | jq -r '.id' | sed 's_^_https://youtu.be/_' >> $output_file_name
   done
-  echo -e "Playlist(s) saved in $output_file_name"
+  echo -e "Playlist(s) saved in \e[1;34m$output_file_name\e[21m" 
 }
 
-#-----------------------------------------------------------------------
-#  Handle command line arguments
-#-----------------------------------------------------------------------
-
-while getopts ":hvi:o:pf" opt
+while getopts ":hvi:o:f" opt
 do
   case $opt in
 
@@ -67,12 +68,6 @@ do
 
   o|output)
     output_file_name=$OPTARG
-  ;;
-  
-  p)
-    for i in "${links_playlist[@]}"; do
-      echo "$i"
-    done
   ;;
 
   f)
