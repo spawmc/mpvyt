@@ -1,36 +1,52 @@
 #!/bin/bash
 
-link_playlist=$1
+#=== Variables ===============================
+input_file_name=""
+output_file_name=""
+declare -a links_playlist
+#=============================================
+
 output_name=$2
 
-echo -e "Downloading list..."
+#echo -e "Downloading list..."
 
-youtube-dl -j --flat-playlist $link_playlist | jq -r '.id' | sed 's_^_https://youtu.be/_' > $output_name
+#youtube-dl -j --flat-playlist $link_playlist | jq -r '.id' | sed 's_^_https://youtu.be/_' > $output_name
 
-echo -e "List saved in $output_name"
+#echo -e "List saved in $output_name"
 
 __ScriptVersion="0.1"
 
-#===  FUNCTION  ================================================================
+#===  FUNCTION  ===============================
 #         NAME:  usage
 #  DESCRIPTION:  Display usage information.
-#===============================================================================
-function usage ()
+#==============================================
+usage ()
 {
-  echo "Usage :  $0 [options] [--]
+  echo "Usage: $0 [options] [--]
 
     Options:
     -h|help       Display this message
     -v|version    Display script version
-    -i|input      Input file"
+    -i|input      Input file name
+    -o|output     Output file name
+    "
 
 }    # ----------  end of function usage  ----------
+
+save_input()
+{
+  count=0
+  while read line ; do
+    links_playlist[count]=$line
+    count=$((count+1))
+  done < $input_file_name
+}
 
 #-----------------------------------------------------------------------
 #  Handle command line arguments
 #-----------------------------------------------------------------------
 
-while getopts ":hv" opt
+while getopts ":hvi:o:p" opt
 do
   case $opt in
 
@@ -43,6 +59,18 @@ do
   ;;
 
   i|input)
+    input_file_name=$OPTARG 
+    save_input
+  ;;
+
+  o|output)
+    output_file_name=$OPTARG
+  ;;
+  
+p)
+for i in "${links_playlist[*]}"; do
+ echo "$i" 
+done
   ;;
 
   *)
