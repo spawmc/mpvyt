@@ -1,5 +1,7 @@
 # VLCYT
 
+# VLCYT DIES, I USE MPV BTW
+
 [VLC](https://github.com/videolan/vlc.git) es un reproductor y framework multimedia muy potente, libre y de código abierto que nos permite desde reproducir música hasta video, pero que cuenta con un apartado no tan conocido, que es el soporte para la reproducción de contenido de **YouTube** y lo mejor de todo, sin anuncios molestos a la hora de disfrutar de nuestro contenido sin importar el formato en el que se desee adquirir.
 
 ## ¿Qué es VLCYT?
