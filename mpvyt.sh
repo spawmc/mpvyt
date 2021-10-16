@@ -10,6 +10,12 @@ function dependency-check () {
     unset dependency
 }
 
+trap ctrl_c INT
+
+function ctrl_c () {
+    echo -e "\n[!] Exiting..."
+    tput cnorm; exit 0
+}
 
 function main () {
     dependency-check "jq" "youtube-dl" "curl" "mpv"
